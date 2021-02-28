@@ -42,17 +42,6 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 export function ExchangeRatePage({ loading, error, list, loadList }) {
   const classes = useStyles();
 
@@ -60,15 +49,17 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
   useInjectSaga({ key, saga });
 
   const [rates, setRates] = React.useState([]);
+  const [loadingRates, setLoading] = React.useState(false);
 
   useEffect(() => {
-    console.log(list);
-    if (rates.length === 0 && !loading) {
+    if (list.length === 0 && !loadingRates) {
+      setLoading(true);
       // Load list if empty
       loadList();
       return;
     }
-    setRates(list);
+    // console.log(list);
+    setRates(Object.keys(list).map(keyItem => [keyItem, list[keyItem]]));
   }, [list]);
 
   useEffect(() => {
@@ -87,15 +78,16 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-              </TableRow>
-            ))}
+            {rates.length > 0 &&
+              rates.map(row => (
+                <TableRow key={row[1]}>
+                  <TableCell component="th" scope="row">
+                    {row[0]}
+                  </TableCell>
+                  <TableCell align="right">{row}</TableCell>
+                  <TableCell align="right">{row[1]}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -105,8 +97,8 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
 
 ExchangeRatePage.propTypes = {
   loading: PropTypes.bool,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  list: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  error: PropTypes.any,
+  list: PropTypes.any,
   loadList: PropTypes.func,
 };
 
