@@ -1,10 +1,19 @@
 /* eslint-disable react/jsx-no-undef */
-
+/** Header Main Component
+ *
+ * Created By: John Walter Ramos | 02/26/2021
+ *
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Box, Tab, Tabs, Typography } from '@material-ui/core';
-import { FormattedMessage } from 'react-intl';
 
+// Common Dependencies
+import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
+// import { FormattedMessage } from 'react-intl';
+
+// Local Dependencies
+import ConverterPage from 'containers/ConverterPage';
+import ExchangeRatesPage from 'containers/ExchangeRatesPage';
 // Main Functional Component
 function Header() {
   const [value, setValue] = React.useState(0);
@@ -26,10 +35,10 @@ function Header() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item One
+        <ConverterPage />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <ExchangeRatesPage />
       </TabPanel>
     </Box>
   );
