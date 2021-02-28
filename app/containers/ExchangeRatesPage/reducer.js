@@ -14,7 +14,7 @@ import {
   LOAD_RATELIST,
   LOAD_RATELIST_ERROR,
   LOAD_RATELIST_SUCCESS,
-} from './constants';
+} from 'containers/App/constants';
 
 // The initial state of the App
 export const initialState = {

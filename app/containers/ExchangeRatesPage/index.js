@@ -1,13 +1,22 @@
 /**
  * Exchange Page File
  */
-import React from 'react';
+import React, { useEffect, memo } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
 // Common Dependencies
 
-// import { FormattedMessage } from 'react-intl';
-
-// import H1 from 'components/H1';
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import {
+  makeSelectCurrencyList,
+  makeSelectLoading,
+  makeSelectError,
+} from 'containers/App/selectors';
+import { loadExchangeList } from 'containers/App/actions';
 import {
   Paper,
   Table,
@@ -19,6 +28,13 @@ import {
   Container,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import reducer from './reducer';
+import saga from './saga';
+// import { FormattedMessage } from 'react-intl';
+
+// import H1 from 'components/H1';
+
+const key = 'exchangerates';
 
 const useStyles = makeStyles({
   table: {
@@ -37,8 +53,28 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
-export default function ExchangeRatePage() {
+export function ExchangeRatePage({ loading, error, list, loadList }) {
   const classes = useStyles();
+
+  useInjectReducer({ key, reducer });
+  useInjectSaga({ key, saga });
+
+  const [rates, setRates] = React.useState([]);
+
+  useEffect(() => {
+    console.log(list);
+    if (rates.length === 0 && !loading) {
+      // Load list if empty
+      loadList();
+      return;
+    }
+    setRates(list);
+  }, [list]);
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
+
   return (
     <Container maxWidth="xl">
       <TableContainer component={Paper}>
@@ -66,3 +102,34 @@ export default function ExchangeRatePage() {
     </Container>
   );
 }
+
+ExchangeRatePage.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  list: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  loadList: PropTypes.func,
+};
+
+const mapStateToProps = createStructuredSelector({
+  list: makeSelectCurrencyList(),
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
+});
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    loadList: () => {
+      dispatch(loadExchangeList());
+    },
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(ExchangeRatePage);

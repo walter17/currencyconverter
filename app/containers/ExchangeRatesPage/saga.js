@@ -13,7 +13,7 @@ import request from 'utils/request';
 // Retrieve currency exchange rates
 export function* getCurrencyList() {
   // Construct API headers
-  const requestURL = `${CURRENCY_LIST_URI}`;
+  const requestURL = `${CURRENCY_LIST_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0`;
   const headers = {
     method: 'GET',
     headers: {
