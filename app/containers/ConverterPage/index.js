@@ -41,7 +41,7 @@ export default function ConverterPage() {
             variant="outlined"
             square
             elevation={4}
-            style={{ minHeight: 400, padding: 40 }}
+            style={{ padding: 40 }}
           >
             <ConverterForm />
           </Paper>
@@ -54,7 +54,7 @@ export default function ConverterPage() {
             variant="outlined"
             square
             elevation={4}
-            style={{ minHeight: 400, padding: 40 }}
+            style={{ padding: 40 }}
           >
             <ConverterForm />
           </Paper>
