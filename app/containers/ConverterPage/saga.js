@@ -70,7 +70,7 @@ export function* convertCurrency() {
  * Root saga manages watcher lifecycle
  */
 export default function* currencyListData() {
-  // Watches for LOAD_RATELIST actions and calls getRepos when one comes in.
+  // Watches for LOAD_RATELIST, CONVERT actions and calls getRepos when one comes in.
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
