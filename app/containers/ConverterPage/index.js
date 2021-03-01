@@ -47,7 +47,6 @@ export function ConverterPage({
   loadList,
   startCurrencyConvert,
   convertedResult,
-  convertLoading,
   convertError,
 }) {
   useInjectReducer({ key, reducer });
@@ -59,6 +58,7 @@ export function ConverterPage({
   const [rightCurrency, setRightCurrency] = React.useState(false);
   const [leftFocus, setLeftFocus] = React.useState(false);
   const [rightFocus, setRightFocus] = React.useState(false);
+  const [lockedPointers, setLocked] = React.useState(true);
   const [leftConvertedValue, setLeftConvertValue] = React.useState(0);
   const [rightConvertedValue, setRightConvertValue] = React.useState(0);
 
@@ -73,22 +73,36 @@ export function ConverterPage({
   }, [list]);
 
   useEffect(() => {
-    console.log(leftConvertedValue);
-    if (leftConvertedValue >= 1) {
-      setLeftFocus(true);
+    if (leftConvertedValue >= 1 && leftFocus && !lockedPointers) {
       setRightFocus(false);
+      // Perform conversion calls
       startCurrencyConvert(leftCurrency, rightCurrency, leftConvertedValue);
     }
   }, [leftConvertedValue]);
 
   useEffect(() => {
-    console.log(rightConvertedValue);
-    if (rightConvertedValue >= 1) {
+    if (rightConvertedValue >= 1 && rightFocus && !lockedPointers) {
       setLeftFocus(false);
-      setRightFocus(true);
-      startCurrencyConvert(leftCurrency, rightCurrency, rightConvertedValue);
+      // Perform conversion calls
+      startCurrencyConvert(rightCurrency, leftCurrency, rightConvertedValue);
     }
   }, [rightConvertedValue]);
+
+  useEffect(() => {
+    if (!convertedResult.success) {
+      setLocked(false); // UnLock next calls
+      return; // Return | Break if failed
+    }
+    setLocked(true); // Lock next calls
+    if (leftFocus) {
+      setRightConvertValue(convertedResult.result);
+    } else if (rightFocus) {
+      setLeftConvertValue(convertedResult.result);
+    } else {
+      setRightConvertValue(0);
+      setLeftConvertValue(0);
+    }
+  }, [convertedResult]);
 
   return (
     <Container maxWidth="xl">
@@ -98,11 +112,12 @@ export function ConverterPage({
       </Typography>
       {loading && <LinearProgress />}
 
-      {error && (
-        <Typography variant="body2" color="secondary">
-          Something went wrong. Please try again!
-        </Typography>
-      )}
+      {error ||
+        (convertError && (
+          <Typography variant="body2" color="secondary">
+            Something went wrong. Please try again!
+          </Typography>
+        ))}
       <Grid
         container
         direction="row"
@@ -121,6 +136,8 @@ export function ConverterPage({
               rates={rates}
               setCurrencyValue={val => {
                 setLeftConvertValue(val);
+                setLeftFocus(true);
+                setLocked(false); // UnLock next calls
               }}
               currValue={leftConvertedValue}
               setCurrencyType={type => {
@@ -143,6 +160,8 @@ export function ConverterPage({
               rates={rates}
               setCurrencyValue={val => {
                 setRightConvertValue(val);
+                setRightFocus(true);
+                setLocked(false); // UnLock next calls
               }}
               currValue={rightConvertedValue}
               setCurrencyType={type => {
@@ -185,9 +204,9 @@ function ConverterForm({
         options={rates}
         getOptionLabel={option =>
           `${
-            getCountryByCode(option[0])[0].name
+            getCountryByCode(option[0])[0]
               ? getCountryByCode(option[0])[0].name
-              : ''
+              : '-'
           } (${option[0]})`
         }
         style={{ margin: '20px auto' }}
@@ -222,7 +241,7 @@ ConverterPage.propTypes = {
 ConverterForm.propTypes = {
   rates: PropTypes.any,
   setCurrencyValue: PropTypes.func,
-  currValue: PropTypes.number,
+  currValue: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -232,9 +251,9 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
 
   // converted currency props
-  convertedResult: makeSelectConvertData(),
-  convertLoading: makeSelectConvertLoading(),
-  convertError: makeSelectConvertError(),
+  convertedResult: makeSelectConvertData('convert'),
+  convertLoading: makeSelectConvertLoading('convert'),
+  convertError: makeSelectConvertError('convert'),
 });
 
 export function mapDispatchToProps(dispatch) {

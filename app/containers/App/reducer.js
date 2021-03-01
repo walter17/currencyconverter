@@ -64,14 +64,14 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case CONVERT_SUCCESS:
-        draft.data = action.info;
-        draft.loading = false;
-        draft.error = false;
+        draft.convert.data = action.info;
+        draft.convert.loading = false;
+        draft.convert.error = false;
         break;
 
       case CONVERT_ERROR:
-        draft.error = action.error;
-        draft.loading = false;
+        draft.convert.error = action.error;
+        draft.convert.loading = false;
         break;
     }
   });

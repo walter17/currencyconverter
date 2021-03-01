@@ -5,7 +5,6 @@
  * Last Modified: 03/01/21
  */
 
-
 // Currency names arr, that is not part of the api response values
 export function getCountryByCode(code) {
   const currNamesArr = [

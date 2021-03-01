@@ -9,6 +9,12 @@ const selectGlobal = state => state.global || initialState;
 
 const selectRouter = state => state.router;
 
+export const objReduxConv = typeVal => {
+  if (typeVal === 'convert') return true;
+
+  return false;
+};
+
 const makeSelectCurrencyList = () =>
   createSelector(
     selectGlobal,
@@ -33,40 +39,46 @@ const makeSelectLocation = () =>
     routerState => routerState.location,
   );
 
-const makeSelectConvertLoading = () =>
+const makeSelectConvertLoading = itemQuery =>
   createSelector(
-    selectRouter,
-    globalState => globalState.convert.loading,
+    selectGlobal,
+    globalState =>
+      objReduxConv(itemQuery) ? globalState[itemQuery].loading : false,
   );
 
-const makeSelectConvertError = () =>
+const makeSelectConvertError = itemQuery =>
   createSelector(
-    selectRouter,
-    globalState => globalState.convert.error,
+    selectGlobal,
+    globalState =>
+      objReduxConv(itemQuery) ? globalState[itemQuery].error : false,
   );
 
-const makeSelectConvertValue = () =>
+const makeSelectConvertValue = itemQuery =>
   createSelector(
-    selectRouter,
-    globalState => globalState.convert.valueToConvert,
+    selectGlobal,
+    globalState =>
+      objReduxConv(itemQuery) ? globalState[itemQuery].valueToConvert : false,
   );
 
-const makeSelectLeftCurrency = () =>
+const makeSelectLeftCurrency = itemQuery =>
   createSelector(
-    selectRouter,
-    globalState => globalState.convert.leftCurrency,
+    selectGlobal,
+    globalState =>
+      objReduxConv(itemQuery) ? globalState[itemQuery].leftCurrency : false,
   );
 
-const makeSelectRightCurrency = () =>
+const makeSelectRightCurrency = itemQuery =>
   createSelector(
-    selectRouter,
-    globalState => globalState.convert.rightCurrency,
+    selectGlobal,
+    globalState =>
+      objReduxConv(itemQuery) ? globalState[itemQuery].rightCurrency : false,
   );
 
-const makeSelectConvertData = () =>
+const makeSelectConvertData = itemQuery =>
   createSelector(
-    selectRouter,
-    globalState => globalState.convert.data,
+    selectGlobal,
+    globalState =>
+      objReduxConv(itemQuery) ? globalState[itemQuery].data : false,
   );
 
 export {

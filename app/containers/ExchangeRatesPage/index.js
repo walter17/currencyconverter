@@ -86,7 +86,7 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
             <TableRow>
               <TableCell>Currency</TableCell>
               <TableCell align="center">Currency Name</TableCell>
-              <TableCell align="right">Exchange Rate = 1 EURO</TableCell>
+              <TableCell align="right">Exchange Rate = 1 USD</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -98,7 +98,9 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
                     {row[0]}
                   </TableCell>
                   <TableCell align="center">
-                    {getCountryByCode(row[0])[0].name}
+                    {getCountryByCode(row[0])[0]
+                      ? getCountryByCode(row[0])[0].name
+                      : '-'}
                   </TableCell>
                   <TableCell align="right">{row[1]}</TableCell>
                 </TableRow>

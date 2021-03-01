@@ -29,8 +29,7 @@ import request from 'utils/request';
 // Retrieve currency exchange rates
 export function* getCurrencyList() {
   // Construct API headers
-  const requestURL = `${CURRENCY_LIST_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0`;
-
+  const requestURL = `${CURRENCY_LIST_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0&base=USD`;
   try {
     // Call our request helper (see 'utils/request')
     const results = yield call(request, requestURL);
@@ -47,9 +46,9 @@ export function* getCurrencyList() {
 // Process currency conversion
 export function* convertCurrency() {
   // Retrieve
-  const lCurrency = yield select(makeSelectLeftCurrency());
-  const rCurrency = yield select(makeSelectRightCurrency());
-  const convertVal = yield select(makeSelectConvertValue());
+  const lCurrency = yield select(makeSelectLeftCurrency('convert'));
+  const rCurrency = yield select(makeSelectRightCurrency('convert'));
+  const convertVal = yield select(makeSelectConvertValue('convert'));
 
   // Construct API headers
   const requestURL = `${CONVERT_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0&from=${lCurrency}&to=${rCurrency}&amount=${convertVal}`;
