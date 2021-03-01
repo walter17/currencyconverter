@@ -12,13 +12,24 @@ import {
   LOAD_RATELIST,
   LOAD_RATELIST_SUCCESS,
   LOAD_RATELIST_ERROR,
+  CONVERT,
+  CONVERT_SUCCESS,
+  CONVERT_ERROR,
 } from './constants';
 
 // The initial state of the App
 export const initialState = {
   loading: false,
   error: false,
-  list: [],
+  exchangeRateList: [],
+  convert: {
+    loading: false,
+    error: false,
+    data: false,
+    leftCurrency: 0,
+    rightCurrency: 0,
+    valueToConvert: 0,
+  },
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -28,11 +39,11 @@ const appReducer = (state = initialState, action) =>
       case LOAD_RATELIST:
         draft.loading = true;
         draft.error = false;
-        draft.list = [];
+        draft.exchangeRateList = [];
         break;
 
       case LOAD_RATELIST_SUCCESS:
-        draft.list = action.list;
+        draft.exchangeRateList = action.list;
         draft.loading = false;
         draft.error = false;
         break;
@@ -40,7 +51,27 @@ const appReducer = (state = initialState, action) =>
       case LOAD_RATELIST_ERROR:
         draft.error = action.error;
         draft.loading = false;
-        draft.list = [];
+        draft.exchangeRateList = [];
+        break;
+
+      case CONVERT:
+        draft.convert.loading = true;
+        draft.convert.error = false;
+        draft.convert.data = false;
+        draft.convert.leftCurrency = action.leftCurrency;
+        draft.convert.rightCurrency = action.rightCurrency;
+        draft.convert.valueToConvert = action.valueToConvert;
+        break;
+
+      case CONVERT_SUCCESS:
+        draft.data = action.info;
+        draft.loading = false;
+        draft.error = false;
+        break;
+
+      case CONVERT_ERROR:
+        draft.error = action.error;
+        draft.loading = false;
         break;
     }
   });

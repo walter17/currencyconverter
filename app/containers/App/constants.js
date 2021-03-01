@@ -10,11 +10,14 @@
  */
 
 // Constants --- Retrieve Exhange Rate List
-export const LOAD_RATELIST = 'containers/ExchangeRates/LOAD_RATELIST';
-export const LOAD_RATELIST_SUCCESS =
-  'containers/ExchangeRates/LOAD_RATELIST_SUCCESS';
-export const LOAD_RATELIST_ERROR =
-  'containers/ExchangeRates/LOAD_RATELIST_ERROR';
+export const LOAD_RATELIST = 'containers/App/LOAD_RATELIST';
+export const LOAD_RATELIST_SUCCESS = 'containers/App/LOAD_RATELIST_SUCCESS';
+export const LOAD_RATELIST_ERROR = 'containers/App/LOAD_RATELIST_ERROR';
+
+// Constants --- Convert Currency
+export const CONVERT = 'containers/App/CONVERT';
+export const CONVERT_SUCCESS = 'containers/App/CONVERT_SUCCESS';
+export const CONVERT_ERROR = 'containers/App/CONVERT_ERROR';
 
 // API Constants
 const API_BASE_URL = `http://data.fixer.io/api/`;
