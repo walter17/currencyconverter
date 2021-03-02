@@ -30,9 +30,12 @@ import request from 'utils/request';
 export function* getCurrencyList() {
   // Construct API headers
   const requestURL = `${CURRENCY_LIST_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0&base=USD`;
+  const headers = {
+    Accept: 'application/json',
+  };
   try {
     // Call our request helper (see 'utils/request')
-    const results = yield call(request, requestURL);
+    const results = yield call(request, requestURL, headers);
     if (results.success) {
       yield put(exchangeListSuccess(results.rates));
     } else {
