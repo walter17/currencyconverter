@@ -5,66 +5,45 @@
  *
  */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Common Dependencies
 import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
-// import { FormattedMessage } from 'react-intl';
 
 // Local Dependencies
+// import TabPanel from './TabPanel';
 import ConverterPage from 'containers/ConverterPage';
 import ExchangeRatesPage from 'containers/ExchangeRatesPage';
 // Main Functional Component
-function Header() {
+export function Header() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    if (!event) {
+      // if event attributes were inaccessible, return
+      return;
+    }
     setValue(newValue);
   };
 
   return (
-    <Box>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="Currency Navbar Tabs"
-        >
+    <div>
+      <AppBar position="static" style={{ marginBottom: 20 }}>
+        <Tabs value={value} onChange={handleChange}>
           <Tab label="Converter" />
           <Tab label="Exchange Rates" />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <ConverterPage />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <ExchangeRatesPage />
-      </TabPanel>
-    </Box>
-  );
-}
+      <Box>
+        <div role="tabpanel" hidden={value !== 0}>
+          {<ConverterPage />}
+        </div>
 
-// Sub component function to handle Tabpanel display
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
+        <div role="tabpanel" hidden={value !== 1}>
+          {<ExchangeRatesPage />}
+        </div>
+      </Box>
     </div>
   );
 }
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 
 export default Header;

@@ -5,18 +5,28 @@ import { IntlProvider } from 'react-intl';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import { createMemoryHistory } from 'history';
 import configureStore from '../../../configureStore';
-import Header from '../index';
+import ConverterPage from '../index';
 
-describe('<Header />', () => {
+describe('<ConverterPage />', () => {
   const history = createMemoryHistory();
   const store = configureStore({}, history);
 
-  it('should render Header', () => {
+  it('should render a Converter Page Component', () => {
     const { container } = render(
       <Provider store={store}>
         <IntlProvider locale="en">
           <ConnectedRouter history={history}>
-            <Header />
+            <ConverterPage
+              setCurrencyType={() => {}}
+              loading={false}
+              error={false}
+              list={[]}
+              loadList={() => {}}
+              startCurrencyConvert={() => {}}
+              convertedResult={[]}
+              convertLoading={false}
+              convertError={false}
+            />
           </ConnectedRouter>
         </IntlProvider>
       </Provider>,

@@ -1,10 +1,15 @@
 import {
   selectGlobal,
-  makeSelectCurrentUser,
+  makeSelectCurrencyList,
   makeSelectLoading,
   makeSelectError,
-  makeSelectRepos,
   makeSelectLocation,
+  makeSelectConvertLoading,
+  makeSelectConvertError,
+  makeSelectConvertValue,
+  makeSelectLeftCurrency,
+  makeSelectRightCurrency,
+  makeSelectConvertData,
 } from '../selectors';
 
 describe('selectGlobal', () => {
@@ -14,19 +19,6 @@ describe('selectGlobal', () => {
       global: globalState,
     };
     expect(selectGlobal(mockedState)).toEqual(globalState);
-  });
-});
-
-describe('makeSelectCurrentUser', () => {
-  const currentUserSelector = makeSelectCurrentUser();
-  it('should select the current user', () => {
-    const username = 'mxstbr';
-    const mockedState = {
-      global: {
-        currentUser: username,
-      },
-    };
-    expect(currentUserSelector(mockedState)).toEqual(username);
   });
 });
 
@@ -56,18 +48,16 @@ describe('makeSelectError', () => {
   });
 });
 
-describe('makeSelectRepos', () => {
-  const reposSelector = makeSelectRepos();
+describe('makeSelectCurrencyList', () => {
+  const rateListSelector = makeSelectCurrencyList();
   it('should select the repos', () => {
-    const repositories = [];
+    const rawList = [];
     const mockedState = {
       global: {
-        userData: {
-          repositories,
-        },
+        exchangeRateList: [],
       },
     };
-    expect(reposSelector(mockedState)).toEqual(repositories);
+    expect(rateListSelector(mockedState)).toEqual(rawList);
   });
 });
 
@@ -81,5 +71,55 @@ describe('makeSelectLocation', () => {
       router,
     };
     expect(locationStateSelector(mockedState)).toEqual(router.location);
+  });
+});
+
+describe('makeSelectConvertLoading', () => {
+  const convertLoadingSelector = makeSelectConvertLoading();
+  it('should select conversion loading', () => {
+    const loading = false;
+    const mockedState = {
+      global: {
+        convert: {
+          loading,
+        },
+      },
+    };
+    expect(convertLoadingSelector(mockedState)).toEqual(loading);
+  });
+});
+
+describe('makeSelectConvertError', () => {
+  const errorConvertSelector = makeSelectConvertError('convert');
+  it('should select the error', () => {
+    expect(errorConvertSelector(404)).toEqual(false);
+  });
+});
+
+describe('makeSelectConvertValue', () => {
+  const convertValueSelector = makeSelectConvertValue('convert');
+  it('should select the error', () => {
+    expect(convertValueSelector(0)).toEqual(0);
+  });
+});
+
+describe('makeSelectLeftCurrency', () => {
+  const leftCurrencySelector = makeSelectLeftCurrency('convert');
+  it('should select the error', () => {
+    expect(leftCurrencySelector('USD')).toEqual(0);
+  });
+});
+
+describe('makeSelectRightCurrency', () => {
+  const rightCurrencySelector = makeSelectRightCurrency('convert');
+  it('should select the error', () => {
+    expect(rightCurrencySelector('EU')).toEqual(0);
+  });
+});
+
+describe('makeSelectConvertData', () => {
+  const dataConvertedSelector = makeSelectConvertData('convert');
+  it('should select the error', () => {
+    expect(dataConvertedSelector(false)).toEqual(false);
   });
 });

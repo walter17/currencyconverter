@@ -5,18 +5,18 @@ import { IntlProvider } from 'react-intl';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import { createMemoryHistory } from 'history';
 import configureStore from '../../../configureStore';
-import Header from '../index';
+import App from '../index';
 
-describe('<Header />', () => {
+describe('<App />', () => {
   const history = createMemoryHistory();
   const store = configureStore({}, history);
 
-  it('should render Header', () => {
+  it('should render a Exchange Page Component', () => {
     const { container } = render(
       <Provider store={store}>
         <IntlProvider locale="en">
           <ConnectedRouter history={history}>
-            <Header />
+            <App />
           </ConnectedRouter>
         </IntlProvider>
       </Provider>,

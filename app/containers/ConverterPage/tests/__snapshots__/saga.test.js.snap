@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Retrieve currency exchange rates Saga currencyListData Saga should start task to watch for CONVERT action 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "args": Array [
+      "containers/App/LOAD_RATELIST",
+      [Function],
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+  "type": "FORK",
+}
+`;
+
+exports[`Retrieve currency exchange rates Saga currencyListData Saga should start task to watch for LOAD_RATELIST action 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "args": Array [
+      "containers/App/LOAD_RATELIST",
+      [Function],
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+  "type": "FORK",
+}
+`;
+
+exports[`Retrieve currency exchange rates Saga should call the convertFailed action if device login fails 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "args": Array [
+      "containers/App/LOAD_RATELIST",
+      [Function],
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+  "type": "FORK",
+}
+`;
+
+exports[`Retrieve currency exchange rates Saga should call the exchangeListError action rates retreival fails 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "args": Array [
+      "containers/App/LOAD_RATELIST",
+      [Function],
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+  "type": "FORK",
+}
+`;
+
+exports[`Retrieve currency exchange rates Saga should dispatch the convertSuccess action when converted successfully 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "args": Array [
+      "containers/App/LOAD_RATELIST",
+      [Function],
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+  "type": "FORK",
+}
+`;
+
+exports[`Retrieve currency exchange rates Saga should dispatch the exchangeListSuccess action when rates list retrieved successfully 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "args": Array [
+      "containers/App/LOAD_RATELIST",
+      [Function],
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+  "type": "FORK",
+}
+`;

@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> should render a Exchange Page Component 1`] = `
+<div
+  class="MuiBox-root MuiBox-root-3"
+>
+  <div
+    class="MuiPaper-root MuiTableContainer-root makeStyles-container-1 MuiPaper-elevation1 MuiPaper-rounded"
+  >
+    <div
+      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate"
+      role="progressbar"
+    >
+      <div
+        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate"
+      />
+      <div
+        class="MuiLinearProgress-bar MuiLinearProgress-bar2Indeterminate MuiLinearProgress-barColorPrimary"
+      />
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter"
+    >
+      No Item Found.
+    </h6>
+    <table
+      aria-label="simple table"
+      class="MuiTable-root makeStyles-table-2 MuiTable-stickyHeader"
+    >
+      <thead
+        class="MuiTableHead-root"
+        elevation="4"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Currency
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Currency Name
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Exchange Rate = 1 USD
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+          >
+            -
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+          >
+            -
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+          >
+            -
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

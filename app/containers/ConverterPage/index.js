@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
 /**
@@ -23,7 +24,6 @@ import { loadExchangeList, sendToConvert } from 'containers/App/actions';
 import { getCountryByCode } from 'containers/App/commons';
 import {
   Box,
-  Container,
   Grid,
   InputAdornment,
   LinearProgress,
@@ -105,19 +105,18 @@ export function ConverterPage({
   }, [convertedResult]);
 
   return (
-    <Container maxWidth="xl">
+    <Box>
       <Typography variant="h4">Currency converter</Typography>
       <Typography variant="body1">
         Please enter the amount to convert on any field
       </Typography>
       {loading && <LinearProgress />}
+      {error && (
+        <Typography variant="body2" color="secondary">
+          Something went wrong. Please try again!
+        </Typography>
+      )}
 
-      {error ||
-        (convertError && (
-          <Typography variant="body2" color="secondary">
-            Something went wrong. Please try again!
-          </Typography>
-        ))}
       <Grid
         container
         direction="row"
@@ -146,7 +145,11 @@ export function ConverterPage({
             />
           </Paper>
           <Typography variant="body1" style={{ margin: '20px 40px' }}>
-            1 USD = 0.83
+            {leftConvertedValue >= 1 &&
+              leftFocus &&
+              `1 ${leftCurrency} = ${rightConvertedValue /
+                leftConvertedValue} ${rightCurrency}`}
+            {rightFocus && `CURRENCY: ${leftCurrency}`}
           </Typography>
         </Grid>
         <Grid item xs={6}>
@@ -170,15 +173,20 @@ export function ConverterPage({
             />
           </Paper>
           <Typography variant="body1" style={{ margin: '20px 40px' }}>
-            1 USD = 0.83
+            {rightConvertedValue >= 1 &&
+              rightFocus &&
+              `1 ${rightCurrency} = ${leftConvertedValue /
+                rightConvertedValue} ${leftCurrency}`}
+            {leftFocus && `CURRENCY: ${rightCurrency}`}
           </Typography>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 }
 
-function ConverterForm({
+// Sub Functional Component that manages the form fields of coversion
+export function ConverterForm({
   rates,
   setCurrencyValue,
   currValue,
@@ -200,7 +208,6 @@ function ConverterForm({
     <Box>
       <Typography variant="body2">Currency</Typography>
       <Autocomplete
-        id="combo-box-demo"
         options={rates}
         getOptionLabel={option =>
           `${
@@ -216,7 +223,6 @@ function ConverterForm({
 
       <Typography variant="body2">Enter amount</Typography>
       <OutlinedInput
-        id="outlined-basic"
         style={{ margin: '20px auto', width: '100%' }}
         endAdornment={<InputAdornment position="start">$</InputAdornment>}
         value={currValue}

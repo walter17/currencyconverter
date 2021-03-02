@@ -23,9 +23,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Container,
   LinearProgress,
   Typography,
+  Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getCountryByCode } from 'containers/App/commons';
@@ -63,7 +63,7 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
   }, [list]);
 
   return (
-    <Container maxWidth="xl">
+    <Box>
       <TableContainer component={Paper} className={classes.container}>
         {/* Loading indicator */}
         {loading && <LinearProgress />}
@@ -117,7 +117,7 @@ export function ExchangeRatePage({ loading, error, list, loadList }) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    </Box>
   );
 }
 

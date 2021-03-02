@@ -1,43 +1,96 @@
-import { LOAD_REPOS, LOAD_REPOS_SUCCESS, LOAD_REPOS_ERROR } from '../constants';
+import {
+  LOAD_RATELIST,
+  LOAD_RATELIST_SUCCESS,
+  LOAD_RATELIST_ERROR,
+  CONVERT,
+  CONVERT_SUCCESS,
+  CONVERT_ERROR,
+} from '../constants';
 
-import { loadRepos, reposLoaded, repoLoadingError } from '../actions';
+import {
+  loadExchangeList,
+  exchangeListSuccess,
+  exchangeListError,
+  sendToConvert,
+  convertSuccess,
+  convertFailed,
+} from '../actions';
 
 describe('App Actions', () => {
-  describe('loadRepos', () => {
-    it('should return the correct type', () => {
+  describe('loadExchangeList', () => {
+    it('should return currency rates', () => {
       const expectedResult = {
-        type: LOAD_REPOS,
+        type: LOAD_RATELIST,
       };
 
-      expect(loadRepos()).toEqual(expectedResult);
+      expect(loadExchangeList()).toEqual(expectedResult);
     });
   });
 
-  describe('reposLoaded', () => {
-    it('should return the correct type and the passed repos', () => {
-      const fixture = ['Test'];
-      const username = 'test';
+  describe('exchangeListSuccess', () => {
+    it('should return the currency rate list', () => {
+      const rawList = ['Test'];
       const expectedResult = {
-        type: LOAD_REPOS_SUCCESS,
-        repos: fixture,
-        username,
+        type: LOAD_RATELIST_SUCCESS,
+        list: rawList,
       };
 
-      expect(reposLoaded(fixture, username)).toEqual(expectedResult);
+      expect(exchangeListSuccess(rawList)).toEqual(expectedResult);
     });
   });
 
-  describe('repoLoadingError', () => {
-    it('should return the correct type and the error', () => {
-      const fixture = {
+  describe('exchangeListError', () => {
+    it('should return error messages and data', () => {
+      const errorRaw = {
         msg: 'Something went wrong!',
       };
       const expectedResult = {
-        type: LOAD_REPOS_ERROR,
-        error: fixture,
+        type: LOAD_RATELIST_ERROR,
+        error: errorRaw,
+      };
+      expect(exchangeListError(errorRaw)).toEqual(expectedResult);
+    });
+  });
+
+  describe('sendToConvert', () => {
+    it('should trigger selected currency conversion', () => {
+      const rawLeftCurrency = 'USD';
+      const rawRightCurrency = 'EU';
+      const rawValueToCurrency = 1;
+      const expectedResult = {
+        type: CONVERT,
+        leftCurrency: rawLeftCurrency,
+        rightCurrency: rawRightCurrency,
+        valueToConvert: rawValueToCurrency,
       };
 
-      expect(repoLoadingError(fixture)).toEqual(expectedResult);
+      expect(
+        sendToConvert(rawLeftCurrency, rawRightCurrency, rawValueToCurrency),
+      ).toEqual(expectedResult);
+    });
+  });
+
+  describe('convertSuccess', () => {
+    it('should return conversion info on success', () => {
+      const rawInfo = ['Test'];
+      const expectedResult = {
+        type: CONVERT_SUCCESS,
+        info: rawInfo,
+      };
+      expect(convertSuccess(rawInfo)).toEqual(expectedResult);
+    });
+  });
+
+  describe('convertFailed', () => {
+    it('should return error messages and data, when conversion fails', () => {
+      const errorRaw = {
+        msg: 'Something went wrong!',
+      };
+      const expectedResult = {
+        type: CONVERT_ERROR,
+        error: errorRaw,
+      };
+      expect(convertFailed(errorRaw)).toEqual(expectedResult);
     });
   });
 });

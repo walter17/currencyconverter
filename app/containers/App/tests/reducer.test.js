@@ -1,7 +1,14 @@
 import produce from 'immer';
 
 import appReducer from '../reducer';
-import { loadRepos, reposLoaded, repoLoadingError } from '../actions';
+import {
+  loadExchangeList,
+  exchangeListSuccess,
+  exchangeListError,
+  sendToConvert,
+  convertSuccess,
+  convertFailed,
+} from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
 describe('appReducer', () => {
@@ -10,9 +17,14 @@ describe('appReducer', () => {
     state = {
       loading: false,
       error: false,
-      currentUser: false,
-      userData: {
-        repositories: false,
+      exchangeRateList: [],
+      convert: {
+        loading: false,
+        error: false,
+        data: false,
+        leftCurrency: 0,
+        rightCurrency: 0,
+        valueToConvert: 0,
       },
     };
   });
@@ -22,45 +34,95 @@ describe('appReducer', () => {
     expect(appReducer(undefined, {})).toEqual(expectedResult);
   });
 
-  it('should handle the loadRepos action correctly', () => {
+  it('should handle the loadExchangeList action correctly', () => {
     const expectedResult = produce(state, draft => {
       draft.loading = true;
       draft.error = false;
-      draft.userData.repositories = false;
+      draft.exchangeRateList = [];
     });
 
-    expect(appReducer(state, loadRepos())).toEqual(expectedResult);
+    expect(appReducer(state, loadExchangeList())).toEqual(expectedResult);
   });
 
-  it('should handle the reposLoaded action correctly', () => {
-    const fixture = [
+  it('should handle the exchangeListSuccess action correctly', () => {
+    const rawList = [
       {
-        name: 'My Repo',
+        code: 'USD',
+        name: 'United States Dollar',
       },
     ];
-    const username = 'test';
     const expectedResult = produce(state, draft => {
-      draft.userData.repositories = fixture;
+      draft.exchangeRateList = rawList;
       draft.loading = false;
-      draft.currentUser = username;
+      draft.error = false;
     });
 
-    expect(appReducer(state, reposLoaded(fixture, username))).toEqual(
+    expect(appReducer(state, exchangeListSuccess(rawList))).toEqual(
       expectedResult,
     );
   });
 
-  it('should handle the repoLoadingError action correctly', () => {
-    const fixture = {
+  it('should handle the exchangeListError action correctly', () => {
+    const rawError = {
       msg: 'Not found',
     };
     const expectedResult = produce(state, draft => {
-      draft.error = fixture;
+      draft.error = rawError;
       draft.loading = false;
+      draft.exchangeRateList = [];
     });
 
-    expect(appReducer(state, repoLoadingError(fixture))).toEqual(
+    expect(appReducer(state, exchangeListError(rawError))).toEqual(
       expectedResult,
     );
+  });
+
+  it('should trigger currency conversion action correctly', () => {
+    const rawLeftCurrency = 'USD';
+    const rawRightCurrency = 'EU';
+    const rawValueToCurrency = 1;
+    const expectedResult = produce(state, draft => {
+      draft.convert.loading = true;
+      draft.convert.error = false;
+      draft.convert.data = false;
+      draft.convert.leftCurrency = rawLeftCurrency;
+      draft.convert.rightCurrency = rawRightCurrency;
+      draft.convert.valueToConvert = rawValueToCurrency;
+    });
+
+    expect(
+      appReducer(
+        state,
+        sendToConvert(rawLeftCurrency, rawRightCurrency, rawValueToCurrency),
+      ),
+    ).toEqual(expectedResult);
+  });
+
+  it('should handle the convertSuccess action correctly', () => {
+    const rawInfo = [
+      {
+        rate: '1.82',
+        success: true,
+      },
+    ];
+    const expectedResult = produce(state, draft => {
+      draft.convert.data = rawInfo;
+      draft.convert.loading = false;
+      draft.convert.error = false;
+    });
+
+    expect(appReducer(state, convertSuccess(rawInfo))).toEqual(expectedResult);
+  });
+
+  it('should handle the convertFailed action correctly', () => {
+    const rawError = {
+      msg: 'Not found',
+    };
+    const expectedResult = produce(state, draft => {
+      draft.convert.error = rawError;
+      draft.convert.loading = false;
+    });
+
+    expect(appReducer(state, convertFailed(rawError))).toEqual(expectedResult);
   });
 });
