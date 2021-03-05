@@ -32,6 +32,7 @@ export function* getCurrencyList() {
   const requestURL = `${CURRENCY_LIST_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0`;
   const headers = {
     Accept: 'application/json',
+    "Access-Control-Allow-Origin": "*",
   };
   try {
     // Call our request helper (see 'utils/request')
