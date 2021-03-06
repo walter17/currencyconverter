@@ -20,6 +20,7 @@ export const CONVERT_SUCCESS = 'containers/App/CONVERT_SUCCESS';
 export const CONVERT_ERROR = 'containers/App/CONVERT_ERROR';
 
 // API Constants
-const CURRENCY_LIST_BASE_URL = `http://data.fixer.io/api/`;
+// const CURRENCY_LIST_BASE_URL = `http://data.fixer.io/api/`;
+const CURRENCY_LIST_BASE_URL = `https://afternoon-atoll-80090.herokuapp.com/`;
 export const CURRENCY_LIST_URI = `${CURRENCY_LIST_BASE_URL}latest`; // API to GET latest currency rate list
-export const CONVERT_URI = `${CURRENCY_LIST_BASE_URL}convert`; // URI to process currency conversions
+export const CONVERT_URI = `${CURRENCY_LIST_BASE_URL}convert/`; // URI to process currency conversions

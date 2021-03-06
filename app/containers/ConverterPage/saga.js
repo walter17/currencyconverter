@@ -30,7 +30,7 @@ import request from 'utils/request';
 export function* getCurrencyList() {
   // Construct API headers
   // const requestURL = `${CURRENCY_LIST_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0`;
-  const requestURL = `https://afternoon-atoll-80090.herokuapp.com/latest`;
+  const requestURL = `${CURRENCY_LIST_URI}`;
   const headers = {
     Accept: 'application/json',
     "Access-Control-Allow-Origin": "*",
@@ -56,7 +56,9 @@ export function* convertCurrency() {
   const convertVal = yield select(makeSelectConvertValue('convert'));
 
   // Construct API headers
-  const requestURL = `${CONVERT_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0&from=${lCurrency}&to=${rCurrency}&amount=${convertVal}`;
+  
+  // const requestURL = `${CONVERT_URI}?access_key=252f4905adac6f1633d32f17b8b6cba0&from=${lCurrency}&to=${rCurrency}&amount=${convertVal}`;
+  const requestURL = `${CONVERT_URI}${lCurrency}/${rCurrency}/${convertVal}`
   try {
     // Call our request helper (see 'utils/request')
     const results = yield call(request, requestURL);
